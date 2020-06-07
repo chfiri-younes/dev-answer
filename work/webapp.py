@@ -1,8 +1,13 @@
-from flask import Flask, render_template, g, session, request, redirect, url_for
-
-import os
-
+from flask import Flask, render_template, g, session, request, redirect, url_for, flash
+#from data import Article
+from flask_sqlalchemy import SQLAlchemy
+from passlib.hash import sha256_crypt
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://sql7346420:PYDlIdzWtEm@sql7.freemysqlhosting.net/sql7346420"
+db = SQLAlchemy(app)  
+
 
 @app.route('/')
 def accueil():
@@ -20,8 +25,27 @@ def support ():
 def rules ():
     return render_template('rules.html')
 
-@app.route('/register')
+@app.route('/profile')
+def profilel():
+    return render_template('profile.html')
+
+@app.route('/register', methods=["GET","POST"])
 def register():
+    if request.method == "POST":
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm = request.form.get("confirm")
+        secure_password = sha256_crypt.encrypt(str(password))
+
+        if password == confirm:
+            db.execute("INSTERT INTO users(username, email, passord) VALUE(:username,:email,:password)",
+                                            {"username":username,"email":email,"password":secure_password})
+            db.commit()
+            return redirect(url_for('login'))
+        else:
+            return render_template('register.html')
+
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
