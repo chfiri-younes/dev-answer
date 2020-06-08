@@ -1,3 +1,3 @@
-from flask_qa import create_app
+from dev-answer import create_app
 
 app = create_app()
