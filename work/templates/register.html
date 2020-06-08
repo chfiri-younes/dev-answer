@@ -3,7 +3,7 @@
 {% block body %}
  <div class="container">
      <h1>Register</h1>
-     <form action="/register" method="POST">
+     <form action="{{ url_for('auth.register') }}" method="POST">
          <div class="form-group">
             <label for="username">Username</label>
             <input id="username" class="form-control" type="text" name="username" placeholder="username.." requierd>
@@ -20,7 +20,7 @@
             <label for="confirm">Confirm Password</label>
             <input id="confirm" class="form-control" type="confirm" name="confirm" placeholder="confirm...." requierd>
         </div>
-        <input class="btn btn-outline-primary"" type="submit" value="Register">
+        <button type="submit" class="btn btn-outline-primary">Register</button>
      </form>
 
      
