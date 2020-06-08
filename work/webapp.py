@@ -12,7 +12,7 @@ db = SQLAlchemy(app)
 @app.route('/')
 def accueil():
     return render_template('accueil.html')
-
+ 
 @app.route('/about')
 def about ():
     return render_template('about.html')
@@ -53,7 +53,7 @@ def login():
     error = None
     if request.method == 'POST':
         if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid Username of Password. Please try again.'
+            error = 'Invalid Username or Password. Please try again.'
         else:
             return redirect(url_for('accueil'))
     return render_template('_login.html', error=error)
